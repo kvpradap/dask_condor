@@ -110,6 +110,21 @@ git clone -b chtc https://github.com/kvpradap/dmagellan "$dmagellan_dir"
 cd "$dmagellan_dir"
 python setup.py install
 
+echo '*** Testing dmagellan'
+python - <<__end__
+from dmagellan.blocker.attrequivalence.attr_equiv_blocker import AttrEquivalenceBlocker
+from dmagellan.blocker.overlap.overlapblocker import OverlapBlocker
+from dmagellan.blocker.blackbox.blackbox_blocker import BlackBoxBlocker
+from dmagellan.blocker.rulebased.rule_based_blocker import RuleBasedBlocker
+from dmagellan.feature.autofeaturegen import get_features_for_blocking
+from dmagellan.feature.extractfeatures import extract_feature_vecs
+from dmagellan.feature.autofeaturegen import get_features_for_matching
+from dmagellan.matcher.dtmatcher import DTMatcher
+from dmagellan.utils.py_utils.utils import concat_df
+import sys
+sys.stdout.write('ok\n')
+__end__
+
 echo '*** Making package relocatable'
 # This generates a ton of output in trace mode so turn it off
 set +x
