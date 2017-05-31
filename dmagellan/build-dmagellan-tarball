@@ -36,6 +36,7 @@ fi
 python_build_dir=$work_dir/$(basename "$python_source_archive" .tar.xz)
 python_install_dir=$work_dir/dask_condor_worker
 python_bin_dir=$python_install_dir/bin
+dmagellan_dir=$work_dir/dmagellan
 
 
 # DEBUGGING
@@ -105,11 +106,9 @@ if [[ -n $extra_requirements_file ]]; then
 fi
 
 echo '*** Cloning and installing dmagellan'
-git clone -b chtc https://github.com/kvpradap/dmagellan ~/dmagellan
-cd ~/dmagellan
+git clone -b chtc https://github.com/kvpradap/dmagellan "$dmagellan_dir"
+cd "$dmagellan_dir"
 python setup.py install
-cd ~
-
 
 echo '*** Making package relocatable'
 # This generates a ton of output in trace mode so turn it off
