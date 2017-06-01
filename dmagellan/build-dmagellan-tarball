@@ -108,6 +108,7 @@ fi
 echo '*** Cloning and installing dmagellan'
 git clone -b chtc https://github.com/kvpradap/dmagellan "$dmagellan_dir"
 cd "$dmagellan_dir"
+python setup.py build_ext --inplace
 python setup.py install
 
 echo '*** Testing dmagellan'
