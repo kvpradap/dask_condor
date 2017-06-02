@@ -45,8 +45,14 @@ H = extract_feature_vecs(L, orig_A, orig_B,
                          '_id', 'l_id', 'r_id', 'id', 'id',
                           feature_table=F,
                           attrs_after='label', nchunks=8,
-                          show_progress=True, compute=False,
+                          show_progress=True,
+                          # we have to compute here else mlmatcher will
+                          # complain that "Input table is not of type DataFrame"
+                          compute=True,
                          scheduler=client.get)
+
+
+print(H.head())
 
 # Instantiate the matcher to evaluate.
 dt = DTMatcher(name='DecisionTree', random_state=0)
