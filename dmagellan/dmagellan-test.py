@@ -31,7 +31,7 @@ B = pd.read_csv('./data/sample_dblp.csv')
 # blocking
 ob = OverlapBlocker()
 C = ob.block_tables(A, B, 'id', 'id', 'title', 'title',
-                    overlap_size=3, nltable_chunks=4, nrtable_chunks=4,
+                    overlap_size=3, nltable_chunks=2, nrtable_chunks=2,
                     scheduler=client.get, compute=False,
                     rem_stop_words=True
                    )
