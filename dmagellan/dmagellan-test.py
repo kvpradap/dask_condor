@@ -31,7 +31,7 @@ B = pd.read_csv('./data/sample_dblp.csv')
 # blocking
 ob = OverlapBlocker()
 C = ob.block_tables(A, B, 'id', 'id', 'title', 'title',
-                    overlap_size=3, nltable_chunks=16, nrtable_chunks=16,
+                    overlap_size=3, nltable_chunks=4, nrtable_chunks=4,
                     scheduler=client.get, compute=False,
                     rem_stop_words=True
                    )
@@ -44,7 +44,7 @@ F = em.get_features_for_matching(A, B)
 H = extract_feature_vecs(L, orig_A, orig_B,
                          '_id', 'l_id', 'r_id', 'id', 'id',
                           feature_table=F,
-                          attrs_after='label', nchunks=32,
+                          attrs_after='label', nchunks=8,
                           show_progress=True, compute=True,
                          scheduler=client.get)
 
@@ -61,7 +61,7 @@ dt.fit(table=H,
 # Convert J into a set of feature vectors using F
 I = extract_feature_vecs(C, A, B,
                          '_id', 'l_id', 'r_id', 'id', 'id',
-                            nchunks=32,
+                            nchunks=8,
                             feature_table=F,
                             show_progress=True,
                             compute=False)
@@ -69,7 +69,7 @@ I = extract_feature_vecs(C, A, B,
 
 predictions = dt.predict(table=I, exclude_attrs=['_id', 'l_id', 'r_id'],
               append=True, target_attr='predicted', inplace=False,
-                        nchunks=32, scheduler=client.get, compute=False)
+                        nchunks=8, scheduler=client.get, compute=False)
 
 # Can't visualize - no graphviz
 #predictions.visualize()
