@@ -45,11 +45,8 @@ H = extract_feature_vecs(L, orig_A, orig_B,
                          '_id', 'l_id', 'r_id', 'id', 'id',
                           feature_table=F,
                           attrs_after='label', nchunks=8,
-                          show_progress=True, compute=True,
+                          show_progress=True, compute=False,
                          scheduler=client.get)
-
-
-print(H.head())
 
 # Instantiate the matcher to evaluate.
 dt = DTMatcher(name='DecisionTree', random_state=0)
