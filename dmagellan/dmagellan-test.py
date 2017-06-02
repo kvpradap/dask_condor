@@ -44,7 +44,7 @@ F = em.get_features_for_matching(A, B)
 H = extract_feature_vecs(L, orig_A, orig_B,
                          '_id', 'l_id', 'r_id', 'id', 'id',
                           feature_table=F,
-                          attrs_after='label', nchunks=8,
+                          attrs_after='label', nchunks=4,
                           show_progress=True,
                           # we have to compute here else mlmatcher will
                           # complain that "Input table is not of type DataFrame"
@@ -57,22 +57,22 @@ print(H.head())
 # Instantiate the matcher to evaluate.
 dt = DTMatcher(name='DecisionTree', random_state=0)
 
-dt.fit(table=H,
-       exclude_attrs=['_id', 'l_id', 'r_id', 'label'],
+dt.fit(table=H, 
+       exclude_attrs=['_id', 'l_id', 'r_id', 'label'], 
        target_attr='label')
 
 # Convert J into a set of feature vectors using F
 I = extract_feature_vecs(C, A, B,
                          '_id', 'l_id', 'r_id', 'id', 'id',
-                            nchunks=8,
+                            nchunks=4,
                             feature_table=F,
                             show_progress=True,
                             compute=False)
 
 
-predictions = dt.predict(table=I, exclude_attrs=['_id', 'l_id', 'r_id'],
+predictions = dt.predict(table=I, exclude_attrs=['_id', 'l_id', 'r_id'], 
               append=True, target_attr='predicted', inplace=False,
-                        nchunks=8, scheduler=client.get, compute=False)
+                        nchunks=4, scheduler=client.get, compute=False)
 
 # Can't visualize - no graphviz
 #predictions.visualize()
