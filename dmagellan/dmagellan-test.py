@@ -30,9 +30,9 @@ B = pd.read_csv('./data/sample_dblp.csv')
 
 # blocking
 ob = OverlapBlocker()
-C = ob.block_tables(A, B, 'id', 'id', 'title', 'title', 
-                    overlap_size=3, nltable_chunks=2, nrtable_chunks=2, 
-                    scheduler=client.get, compute=False, 
+C = ob.block_tables(A, B, 'id', 'id', 'title', 'title',
+                    overlap_size=3, nltable_chunks=16, nrtable_chunks=16,
+                    scheduler=client.get, compute=False,
                     rem_stop_words=True
                    )
 
@@ -41,11 +41,11 @@ L = pd.read_csv('./data/sample_labeled_data.csv')
 F = em.get_features_for_matching(A, B)
 
 # Convert L into feature vectors using updated F
-H = extract_feature_vecs(L, orig_A, orig_B, 
-                         '_id', 'l_id', 'r_id', 'id', 'id', 
-                          feature_table=F, 
-                          attrs_after='label', nchunks=4,
-                          show_progress=True, compute=True, 
+H = extract_feature_vecs(L, orig_A, orig_B,
+                         '_id', 'l_id', 'r_id', 'id', 'id',
+                          feature_table=F,
+                          attrs_after='label', nchunks=32,
+                          show_progress=True, compute=True,
                          scheduler=client.get)
 
 
@@ -54,22 +54,22 @@ print(H.head())
 # Instantiate the matcher to evaluate.
 dt = DTMatcher(name='DecisionTree', random_state=0)
 
-dt.fit(table=H, 
-       exclude_attrs=['_id', 'l_id', 'r_id', 'label'], 
+dt.fit(table=H,
+       exclude_attrs=['_id', 'l_id', 'r_id', 'label'],
        target_attr='label')
 
 # Convert J into a set of feature vectors using F
 I = extract_feature_vecs(C, A, B,
-                         '_id', 'l_id', 'r_id', 'id', 'id', 
-                            nchunks=4,
+                         '_id', 'l_id', 'r_id', 'id', 'id',
+                            nchunks=32,
                             feature_table=F,
                             show_progress=True,
                             compute=False)
 
 
-predictions = dt.predict(table=I, exclude_attrs=['_id', 'l_id', 'r_id'], 
+predictions = dt.predict(table=I, exclude_attrs=['_id', 'l_id', 'r_id'],
               append=True, target_attr='predicted', inplace=False,
-                        nchunks=4, scheduler=client.get, compute=False)
+                        nchunks=32, scheduler=client.get, compute=False)
 
 # Can't visualize - no graphviz
 #predictions.visualize()
