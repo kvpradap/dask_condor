@@ -40,26 +40,26 @@ L = pd.read_csv('./data/sample_labeled_data.csv')
 
 F = em.get_features_for_matching(A, B)
 
-## Convert L into feature vectors using updated F
-#H = extract_feature_vecs(L, orig_A, orig_B,
-#                         '_id', 'l_id', 'r_id', 'id', 'id',
-#                          feature_table=F,
-#                          attrs_after='label', nchunks=4,
-#                          show_progress=True,
-#                          # we have to compute here else mlmatcher will
-#                          # complain that "Input table is not of type DataFrame"
-#                          compute=True,
-#                         scheduler=client.get)
-#
-#
-#print(H.head())
+# Convert L into feature vectors using updated F
+H = extract_feature_vecs(L, orig_A, orig_B,
+                         '_id', 'l_id', 'r_id', 'id', 'id',
+                          feature_table=F,
+                          attrs_after='label', nchunks=4,
+                          show_progress=True,
+                          # we have to compute here else mlmatcher will
+                          # complain that "Input table is not of type DataFrame"
+                          compute=True,
+                         scheduler=client.get)
+
+
+print(H.head())
 
 # Instantiate the matcher to evaluate.
 dt = DTMatcher(name='DecisionTree', random_state=0)
 
-#dt.fit(table=H, 
-#       exclude_attrs=['_id', 'l_id', 'r_id', 'label'], 
-#       target_attr='label')
+dt.fit(table=H, 
+       exclude_attrs=['_id', 'l_id', 'r_id', 'label'], 
+       target_attr='label')
 
 # Convert J into a set of feature vectors using F
 I = extract_feature_vecs(C, A, B,
