@@ -41,7 +41,7 @@ L = pd.read_csv('./data/sample_labeled_data.csv')
 F = em.get_features_for_matching(A, B)
 
 # Convert L into feature vectors using updated F
-H = extract_feature_vecs(L, A, B,
+H = extract_feature_vecs(L, orig_A, orig_B,
                          '_id', 'l_id', 'r_id', 'id', 'id',
                           feature_table=F,
                           attrs_after='label', nchunks=4,
