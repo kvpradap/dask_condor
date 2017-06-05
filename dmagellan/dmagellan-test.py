@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import logging
+import logging, sys
 
 logging.basicConfig(level=0, format="%(asctime)-15s %(name)s %(message)s")
 
@@ -38,12 +38,15 @@ logging.debug('loaded sample data')
 
 # blocking
 ob = OverlapBlocker()
+logging.debug("starting ob.block_tables()")
 C = ob.block_tables(A, B, 'id', 'id', 'title', 'title',
                     overlap_size=3, nltable_chunks=2, nrtable_chunks=2,
-                    scheduler=client.get, compute=False,
+                    scheduler=client.get, compute=True,
                     rem_stop_words=True
                    )
-logging.debug('ran ob.block_tables()')
+logging.debug('finished ob.block_tables()')
+
+sys.exit(0)  # EXIT
 
 L = pd.read_csv('./data/sample_labeled_data.csv')
 logging.debug('loaded sample labeled data')
