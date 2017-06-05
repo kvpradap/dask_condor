@@ -39,8 +39,8 @@ logging.debug('loaded sample data')
 # blocking
 ob = OverlapBlocker()
 logging.debug("starting ob.block_tables()")
-C = ob.block_tables(A, B, 'id', 'id', 'title', 'title',
-                    overlap_size=3, nltable_chunks=2, nrtable_chunks=2,
+C = ob.block_tables(orig_A, orig_B, 'id', 'id', 'title', 'title',
+                    overlap_size=6, nltable_chunks=4, nrtable_chunks=4,
                     scheduler=client.get, compute=True,
                     rem_stop_words=True
                    )
